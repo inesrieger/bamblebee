@@ -78,30 +78,34 @@ public class PizzaSlicer {
 		boolean checkedRightSide = false;
 		boolean checkedDownSide = false;
 		newCells.add(pointer);
-		while (newCells.size() < maximumSliceSize) {
-			if (pointerColumn <= columnNumber) {
 
+		// while (newCells.size() < maximumSliceSize) {
+		if (pointerColumn <= columnNumber) {
+			while ((newCells.size() >= 2 * minimumIngredients) && (checkIfSliceContainsAllIngredients(newCells))
+					&& !checkedRightSide) {
 				ArrayList<Cell> rightExpandedCells = expandRight(newCells, pointer);
 				if (!rightExpandedCells.isEmpty()) {
-					if (newCells.size() >= 2 * minimumIngredients) {
-						if (checkIfSliceContainsAllIngredients(newCells)) {
-							addSliceToListAndMarkCellsAsUnavailable(newCells);
-							return true;
-						} else {
-							// gehe nochmal nach rechts
-						}
-
-					} else {
-						// gehe nochmal nach rechts
-					}
+					addSliceToListAndMarkCellsAsUnavailable(newCells);
 
 				} else {
 					checkedRightSide = true;
-
 				}
 			}
+			while ((newCells.size() >= 2 * minimumIngredients) && (checkIfSliceContainsAllIngredients(newCells))
+					&& !checkedDownSide) {
+				ArrayList<Cell> downExpandedCells = expandDown(newCells, pointer);
+				if (!downExpandedCells.isEmpty()) {
+					addSliceToListAndMarkCellsAsUnavailable(newCells);
+				} else {
+					checkedDownSide = true;
+					// DO SOMETHING LIKE POINTER VERSCHIEBEN
+				}
+
+			}
+
 		}
 		return false;
+
 	}
 
 	private ArrayList<Cell> expandRight(ArrayList<Cell> newCells, Cell pointer) {
