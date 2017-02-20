@@ -20,11 +20,11 @@ public class HelloWorld {
 			int columnNumber = Integer.parseInt(tokens[2]);
 			char[][] cellList = new char[rowNumber][columnNumber];
 			
-			line = reader.readLine();
 			while (line != null) {
 				
 			
 				for(int numberOfRow = 0; numberOfRow < rowNumber; numberOfRow++){
+					
 					line = reader.readLine();
 					char[] charInLine = line.toCharArray();
 					
@@ -32,7 +32,7 @@ public class HelloWorld {
 						cellList[numberOfRow][numberOfColumn] = charInLine[numberOfColumn];
 						
 					}
-					System.out.println(numberOfRow);
+					//System.out.println(numberOfRow);
 				}
 				line = reader.readLine();
 			}
@@ -47,7 +47,13 @@ public class HelloWorld {
 	
 	public static void main(String[] args) {
 		try {
-			readTxt(fileName);
+			char[][] cellList = readTxt(fileName);
+			for(int i = 0;i<1000;i++){
+				for(int b = 0;b<1000;b++){
+					System.out.print(cellList[i][b]);
+				}
+				System.out.println("\n");
+			}
 		} catch (Exception e) {
 			
 			e.printStackTrace();
