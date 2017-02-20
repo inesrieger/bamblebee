@@ -1,7 +1,10 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -177,7 +180,27 @@ public class PizzaSlicer {
 	}
 
 	public void writeOutput() {
-		// TODO Auto-generated method stub
+		try {
+
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File("textfile.txt")));
+
+			writer.write(slices.size());
+			System.out.println(slices.size() + "\n");
+
+			writer.newLine();
+			for (Slice slice : slices) {
+				writer.write(slice.toString());
+				writer.newLine();
+				System.out.println(slice.toString() + "\n");
+			}
+
+			writer.close();
+
+		} catch (IOException ex) {
+
+			ex.printStackTrace();
+
+		}
 
 	}
 
