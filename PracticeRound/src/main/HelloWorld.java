@@ -18,21 +18,22 @@ public class HelloWorld {
 			String[] tokens = line.split(" ");
 			int rowNumber = Integer.parseInt(tokens[1]);
 			int columnNumber = Integer.parseInt(tokens[2]);
+			int L = Integer.parseInt(tokens[3]);
+			int H = Integer.parseInt(tokens[4]);
 			char[][] cellList = new char[rowNumber][columnNumber];
 			
-			line = reader.readLine();
-			while (line != null) {
-				
 			
+			//line = reader.readLine();
+			while (line != null) {
 				for(int numberOfRow = 0; numberOfRow < rowNumber; numberOfRow++){
 					line = reader.readLine();
 					char[] charInLine = line.toCharArray();
-					
 					for(int numberOfColumn = 0; numberOfColumn < columnNumber; numberOfColumn++ ){
 						cellList[numberOfRow][numberOfColumn] = charInLine[numberOfColumn];
 						
 					}
 					System.out.println(numberOfRow);
+					
 				}
 				line = reader.readLine();
 			}
