@@ -80,28 +80,54 @@ public class PizzaSlicer {
 		newCells.add(pointer);
 		// while (newCells.size() < maximumSliceSize) {
 		if (pointerColumn <= columnNumber) {
-
-			ArrayList<Cell> rightExpandedCells = expandRight(newCells, pointer);
-			if (!rightExpandedCells.isEmpty()) {
-				if (newCells.size() >= 2 * minimumIngredients) {
-					if (checkIfSliceContainsAllIngredients(newCells)) {
-						addSliceToListAndMarkCellsAsUnavailable(newCells);
-						return true;
-					} else {
-						// gehe nochmal nach rechts
-					}
+			while ((newCells.size() >= 2 * minimumIngredients) && (checkIfSliceContainsAllIngredients(newCells))
+					&& !checkedRightSide) {
+				ArrayList<Cell> rightExpandedCells = expandRight(newCells, pointer);
+				if (!rightExpandedCells.isEmpty()) {
+					addSliceToListAndMarkCellsAsUnavailable(newCells);
 
 				} else {
-					// gehe nochmal nach rechts
+					checkedRightSide = true;
 				}
-
-			} else {
-				checkedRightSide = true;
+			}
+			while ((newCells.size() >= 2 * minimumIngredients) && (checkIfSliceContainsAllIngredients(newCells))
+					&& !checkedDownSide) {
+				ArrayList<Cell> downExpandedCells = expandDown(newCells, pointer);
+				if (!downExpandedCells.isEmpty()) {
+					addSliceToListAndMarkCellsAsUnavailable(newCells);
+				} else {
+					checkedDownSide = true;
+					// DO SOMETHING LIKE POINTER VERSCHIEBEN
+				}
 
 			}
 		}
 		// }
 		return false;
+
+	}
+
+	private ArrayList<Cell> expandDown(ArrayList<Cell> newCells, Cell pointer) {
+		int highestRowNumber = 0;
+		ArrayList<Cell> candidateCells = new ArrayList<Cell>();
+
+		for (Cell cell : newCells) {
+			if (cell.getRowPosition() > highestRowNumber) {
+				highestRowNumber = cell.getRowPosition();
+			}
+		}
+		for (Cell cell : newCells) {
+			if (cell.getRowPosition() == highestRowNumber) {
+				Cell cellToAdd = pizza[cell.getRowPosition()][cell.getRowPosition() + 1];
+				if (availableCells.contains(cellToAdd)) {
+					candidateCells.add(cellToAdd);
+				} else {
+					return new ArrayList<Cell>();
+				}
+			}
+		}
+
+		return candidateCells;
 	}
 
 	private ArrayList<Cell> expandRight(ArrayList<Cell> newCells, Cell pointer) {
