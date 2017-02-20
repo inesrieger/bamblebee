@@ -70,10 +70,12 @@ public class PizzaSlicer {
 	}
 
 	public void dividePizza() {
-
+		while (!availableCells.isEmpty()) {
+			findPossibleSlice();
+		}
 	}
 
-	public boolean findPossibleSlice() {
+	public void findPossibleSlice() {
 		Cell pointer = availableCells.get(0);
 		int pointerRow = pointer.getRowPosition();
 		int pointerColumn = pointer.getColumnPosition();
@@ -100,12 +102,12 @@ public class PizzaSlicer {
 				} else {
 					checkedDownSide = true;
 					availableCells.remove(0);
-					return false;
+					return;
 				}
 			}
 		}
 		addSliceToListAndMarkCellsAsUnavailable(newCells);
-		return true;
+		return;
 	}
 
 	private ArrayList<Cell> expandRight(ArrayList<Cell> newCells, Cell pointer) {
