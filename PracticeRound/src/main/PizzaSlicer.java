@@ -49,7 +49,7 @@ public class PizzaSlicer {
 				for (int numberOfRow = 0; numberOfRow < rowNumber; numberOfRow++) {
 					line = reader.readLine();
 					char[] charInLine = line.toCharArray();
-					System.out.println(charInLine);
+					// System.out.println(charInLine);
 					for (int numberOfColumn = 0; numberOfColumn < columnNumber; numberOfColumn++) {
 
 						// cellList[numberOfRow][numberOfColumn] =
@@ -66,8 +66,9 @@ public class PizzaSlicer {
 			int counter = 0;
 			for (Cell c : availableCells) {
 
-				System.out.println(++counter + ". cell: row: " + c.getRowPosition() + ", column: "
-						+ c.getColumnPosition() + ", content:" + c.getContent());
+				// System.out.println(++counter + ". cell: row: " +
+				// c.getRowPosition() + ", column: "
+				// + c.getColumnPosition() + ", content:" + c.getContent());
 			}
 			return cellList;
 		} catch (IOException e) {
@@ -112,8 +113,11 @@ public class PizzaSlicer {
 				return;
 			}
 		}
-
-		addSliceToListAndMarkCellsAsUnavailable(newCells);
+		if ((newCells.size() < maximumSliceSize) && (checkIfSliceContainsAllIngredients(newCells))) {
+			addSliceToListAndMarkCellsAsUnavailable(newCells);
+		} else {
+			availableCells.remove(0);
+		}
 		return;
 	}
 
@@ -185,8 +189,6 @@ public class PizzaSlicer {
 				counterMushrooms++;
 			}
 		}
-		System.out.println("cM:" + counterMushrooms);
-		// System.out.println("cT:" + counterTomatoes);
 		if (counterTomatoes >= minimumIngredients && counterMushrooms >= minimumIngredients) {
 
 			return true;
@@ -200,7 +202,7 @@ public class PizzaSlicer {
 
 			BufferedWriter writer = new BufferedWriter(new FileWriter(new File("textfile.txt")));
 
-			writer.write(slices.size());
+			writer.write(slices.size() + "");
 			System.out.println(slices.size() + "\n");
 
 			writer.newLine();
