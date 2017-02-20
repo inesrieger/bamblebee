@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PizzaSlicer {
-	private ArrayList<Slice> slices;
+	private ArrayList<Slice> slices = new ArrayList<Slice>();
 	ArrayList<Cell> availableCells = new ArrayList<Cell>();
 	ArrayList<Cell> unavailableCells;
 	int rowNumber;
@@ -51,7 +51,7 @@ public class PizzaSlicer {
 					char[] charInLine = line.toCharArray();
 					for (int numberOfColumn = 0; numberOfColumn < columnNumber; numberOfColumn++) {
 						cellList[numberOfRow][numberOfColumn] = charInLine[numberOfColumn];
-						for (int i = 0; i < 1000; i++) {
+						for (int i = 0; i < rowNumber; i++) {
 							Cell cellToAdd = new Cell(charInLine[i], numberOfRow, numberOfColumn);
 							availableCells.add(cellToAdd);
 							pizza[numberOfRow][numberOfColumn] = cellToAdd;
@@ -84,8 +84,9 @@ public class PizzaSlicer {
 		boolean checkedDownSide = false;
 		newCells.add(pointer);
 
-		while (pointerColumn <= columnNumber && (newCells.size() < maximumSliceSize)
-				&& (!checkIfSliceContainsAllIngredients(newCells)) && !checkedRightSide) {
+		while (newCells.get(newCells.size() - 1).getColumnPosition() < columnNumber - 1
+				&& (newCells.size() < maximumSliceSize) && (!checkIfSliceContainsAllIngredients(newCells))
+				&& !checkedRightSide) {
 			ArrayList<Cell> rightExpandedCells = expandRight(newCells, pointer);
 			if (!rightExpandedCells.isEmpty()) {
 				newCells.addAll(rightExpandedCells);
@@ -93,8 +94,9 @@ public class PizzaSlicer {
 				checkedRightSide = true;
 			}
 		}
-		while (pointerRow <= rowNumber && (newCells.size() < maximumSliceSize)
-				&& (!checkIfSliceContainsAllIngredients(newCells)) && !checkedDownSide) {
+		while (newCells.get(newCells.size() - 1).getRowPosition() < rowNumber - 1
+				&& (newCells.size() < maximumSliceSize) && (!checkIfSliceContainsAllIngredients(newCells))
+				&& !checkedDownSide) {
 			ArrayList<Cell> downExpandedCells = expandDown(newCells, pointer);
 			if (!downExpandedCells.isEmpty()) {
 				newCells.addAll(downExpandedCells);

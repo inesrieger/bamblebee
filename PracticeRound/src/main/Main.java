@@ -3,7 +3,7 @@ package main;
 public class Main {
 	public static void main(String[] args) throws Exception {
 		// try {
-		PizzaSlicer pizzaSlicer = new PizzaSlicer("resources/big.in");
+		PizzaSlicer pizzaSlicer = new PizzaSlicer("resources/example.in");
 		pizzaSlicer.dividePizza();
 		pizzaSlicer.writeOutput();
 		// char[][] cellList = pizzaSlicer.readTxt("resources/big.in");

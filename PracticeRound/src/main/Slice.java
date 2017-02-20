@@ -19,6 +19,7 @@ public class Slice {
 	// TODO: muss am Ende vor Rueckgabe nochmal aufgerufen werden, da sich in
 	// der Zwischenzeit was geaendert haben koennte
 	public void setCoordinates(ArrayList<Cell> cells) {
+
 		int minimumLeft = Integer.MAX_VALUE;
 		int minimumTop = Integer.MAX_VALUE;
 		int maximumRight = 0;
@@ -28,6 +29,7 @@ public class Slice {
 			int row = c.getRowPosition();
 			if (column < minimumLeft) {
 				minimumLeft = column;
+				System.out.println(minimumLeft);
 			}
 			if (column > maximumRight) {
 				maximumRight = column;
@@ -41,6 +43,7 @@ public class Slice {
 			c.setPartOfASlice(true);
 
 		}
+
 	}
 
 	public ArrayList<Cell> getCells() {
