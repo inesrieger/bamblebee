@@ -78,9 +78,9 @@ public class PizzaSlicer {
 		boolean checkedRightSide = false;
 		boolean checkedDownSide = false;
 		newCells.add(pointer);
-		// while (newCells.size() < maximumSliceSize) {
+
 		if (pointerColumn <= columnNumber) {
-			while ((newCells.size() >= 2 * minimumIngredients) && (checkIfSliceContainsAllIngredients(newCells))
+			while ((newCells.size() < maximumSliceSize) && (checkIfSliceContainsAllIngredients(newCells))
 					&& !checkedRightSide) {
 				ArrayList<Cell> rightExpandedCells = expandRight(newCells, pointer);
 				if (!rightExpandedCells.isEmpty()) {
@@ -90,7 +90,7 @@ public class PizzaSlicer {
 					checkedRightSide = true;
 				}
 			}
-			while ((newCells.size() >= 2 * minimumIngredients) && (checkIfSliceContainsAllIngredients(newCells))
+			while ((newCells.size() < maximumSliceSize) && (checkIfSliceContainsAllIngredients(newCells))
 					&& !checkedDownSide) {
 				ArrayList<Cell> downExpandedCells = expandDown(newCells, pointer);
 				if (!downExpandedCells.isEmpty()) {
