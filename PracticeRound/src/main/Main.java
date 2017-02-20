@@ -3,11 +3,9 @@ package main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
-public class HelloWorld {
+
+public class Main {
 	
 	static String fileName = "recources/big.in";
 	
@@ -37,8 +35,7 @@ public class HelloWorld {
 					}
 					//System.out.println("Zeile eingelesen: "+numberOfRow);
 				}
-				line = reader.readLine();
-				
+				line = reader.readLine();	
 			}
 			return cellList;
 		} catch (IOException e) {
@@ -53,15 +50,12 @@ public class HelloWorld {
 		try {
 			char[][] cellList = readTxt(fileName);
 			int zaehler = 1;
-		
 			for(int i = 0;i<1000;i++){
 				System.out.println("\n"+zaehler++ + ". Zeile:");
 				for(int b = 0;b<1000;b++){
 				
 					System.out.print(cellList[i][b]);
 					}
-		
-			
 			}
 		} catch (Exception e) {
 			
