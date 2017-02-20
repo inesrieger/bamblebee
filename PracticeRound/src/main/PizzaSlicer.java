@@ -9,6 +9,12 @@ public class PizzaSlicer {
 	private ArrayList<Slice> slices;
 	ArrayList<Cell> availableCells = new ArrayList<Cell>();
 	ArrayList<Cell> unavailableCells;
+	int rowNumber;
+	int columnNumber;
+	int minimumIngredients;
+	int maximumSliceSize;
+	char[][] cellList;
+	Cell[][] pizza;
 
 	public PizzaSlicer(String string) throws Exception {
 		createCellsFromInputFile(string);
@@ -28,11 +34,12 @@ public class PizzaSlicer {
 
 			String line = reader.readLine();
 			String[] tokens = line.split(" ");
-			int rowNumber = Integer.parseInt(tokens[0]);
-			int columnNumber = Integer.parseInt(tokens[1]);
-			int L = Integer.parseInt(tokens[2]);
-			int H = Integer.parseInt(tokens[3]);
-			char[][] cellList = new char[rowNumber][columnNumber];
+			rowNumber = Integer.parseInt(tokens[0]);
+			columnNumber = Integer.parseInt(tokens[1]);
+			minimumIngredients = Integer.parseInt(tokens[2]);
+			maximumSliceSize = Integer.parseInt(tokens[3]);
+			cellList = new char[rowNumber][columnNumber];
+			pizza = new Cell[rowNumber][columnNumber];
 
 			// line = reader.readLine();
 			while (line != null) {
@@ -42,7 +49,9 @@ public class PizzaSlicer {
 					for (int numberOfColumn = 0; numberOfColumn < columnNumber; numberOfColumn++) {
 						cellList[numberOfRow][numberOfColumn] = charInLine[numberOfColumn];
 						for (int i = 0; i < 1000; i++) {
-							availableCells.add(new Cell(charInLine[i], numberOfRow, numberOfColumn));
+							Cell cellToAdd = new Cell(charInLine[i], numberOfRow, numberOfColumn);
+							availableCells.add(cellToAdd);
+							pizza[numberOfRow][numberOfColumn] = cellToAdd;
 						}
 						// System.out.println("Spalte eingelesen:
 						// "+numberOfColumn);
@@ -58,24 +67,88 @@ public class PizzaSlicer {
 	}
 
 	public void dividePizza() {
-		while (findPossibleSlice()) {
 
-		}
 	}
 
-	public boolean findPossibleSlice(Cell pointer) {
+	public boolean findPossibleSlice() {
+		Cell pointer = availableCells.get(0);
+		int pointerRow = pointer.getRowPosition();
+		int pointerColumn = pointer.getColumnPosition();
+		ArrayList<Cell> newCells = new ArrayList<Cell>();
+		boolean checkedRightSide = false;
+		boolean checkedDownSide = false;
+		newCells.add(pointer);
+		// while (newCells.size() < maximumSliceSize) {
+		if (pointerColumn <= columnNumber) {
 
-		Slice possibleSlice = null;
+			ArrayList<Cell> rightExpandedCells = expandRight(newCells, pointer);
+			if (!rightExpandedCells.isEmpty()) {
+				if (newCells.size() >= 2 * minimumIngredients) {
+					if (checkIfSliceContainsAllIngredients(newCells)) {
+						addSliceToListAndMarkCellsAsUnavailable(newCells);
+						return true;
+					} else {
+						// gehe nochmal nach rechts
+					}
 
-		if (!possibleSlice.getCells().isEmpty()) {
-			for (Cell candidate : possibleSlice.getCells()) {
-				deleteCellsFromCellsNotTaken(candidate);
+				} else {
+					// gehe nochmal nach rechts
+				}
+
+			} else {
+				checkedRightSide = true;
+
+			}
+		}
+		// }
+		return false;
+	}
+
+	private ArrayList<Cell> expandRight(ArrayList<Cell> newCells, Cell pointer) {
+		int highestColNumber = 0;
+		ArrayList<Cell> candidateCells = new ArrayList<Cell>();
+
+		for (Cell cell : newCells) {
+			if (cell.getColumnPosition() > highestColNumber) {
+				highestColNumber = cell.getColumnPosition();
+			}
+		}
+		for (Cell cell : newCells) {
+			if (cell.getColumnPosition() == highestColNumber) {
+				Cell cellToAdd = pizza[cell.getRowPosition()][cell.getColumnPosition() + 1];
+				if (availableCells.contains(cellToAdd)) {
+					candidateCells.add(cellToAdd);
+				} else {
+					return new ArrayList<Cell>();
+				}
 			}
 		}
 
-		slices.add(possibleSlice);
-		return true;
+		return candidateCells;
+	}
 
+	private void addSliceToListAndMarkCellsAsUnavailable(ArrayList<Cell> newCells) {
+		Slice foundSlice = new Slice(newCells);
+		slices.add(foundSlice);
+		for (Cell candidate : newCells) {
+			deleteCellsFromCellsNotTaken(candidate);
+		}
+	}
+
+	private boolean checkIfSliceContainsAllIngredients(ArrayList<Cell> newCells) {
+		int counterMushrooms = 0;
+		int counterTomatoes = 0;
+		for (Cell cell : newCells) {
+			if (cell.getContent() == 'T') {
+				counterTomatoes++;
+			} else {
+				counterMushrooms++;
+			}
+		}
+		if (counterTomatoes >= minimumIngredients && counterMushrooms >= minimumIngredients) {
+			return true;
+		}
+		return false;
 	}
 
 	public void writeOutput() {

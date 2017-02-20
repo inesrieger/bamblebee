@@ -1,7 +1,7 @@
 package main;
 
 public class Cell {
-	char charInLine;
+	char ingredient;
 	int columnPosition;
 	int rowPosition;
 	boolean isPartOfASlice;
@@ -15,18 +15,18 @@ public class Cell {
 	}
 
 	public Cell(char charInLine, int numberOfRow, int numberOfColumn) {
-		this.charInLine = charInLine;
+		this.ingredient = charInLine;
 		this.columnPosition = numberOfColumn;
 		this.rowPosition = numberOfRow;
 		this.isPartOfASlice = false;
 	}
 
-	public char getCharInLine() {
-		return charInLine;
+	public char getContent() {
+		return ingredient;
 	}
 
 	public void setCharInLine(char charInLine) {
-		this.charInLine = charInLine;
+		this.ingredient = charInLine;
 	}
 
 	public int getColumnPosition() {
