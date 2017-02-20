@@ -49,20 +49,25 @@ public class PizzaSlicer {
 				for (int numberOfRow = 0; numberOfRow < rowNumber; numberOfRow++) {
 					line = reader.readLine();
 					char[] charInLine = line.toCharArray();
+					System.out.println(charInLine);
 					for (int numberOfColumn = 0; numberOfColumn < columnNumber; numberOfColumn++) {
+
 						// cellList[numberOfRow][numberOfColumn] =
 						// charInLine[numberOfColumn];
 						// for (int i = 0; i < rowNumber; i++) {
-						Cell cellToAdd = new Cell(charInLine[numberOfRow], numberOfRow, numberOfColumn);
+						Cell cellToAdd = new Cell(charInLine[numberOfColumn], numberOfRow, numberOfColumn);
 						availableCells.add(cellToAdd);
 						pizza[numberOfRow][numberOfColumn] = cellToAdd;
-						// }
-						// System.out.println("Spalte eingelesen:
-						// "+numberOfColumn);
 					}
-					// System.out.println("Zeile eingelesen: "+numberOfRow);
+
 				}
 				line = reader.readLine();
+			}
+			int counter = 0;
+			for (Cell c : availableCells) {
+
+				System.out.println(++counter + ". cell: row: " + c.getRowPosition() + ", column: "
+						+ c.getColumnPosition() + ", content:" + c.getContent());
 			}
 			return cellList;
 		} catch (IOException e) {
@@ -174,13 +179,18 @@ public class PizzaSlicer {
 		int counterTomatoes = 0;
 		for (Cell cell : newCells) {
 			if (cell.getContent() == 'T') {
+
 				counterTomatoes++;
-			} else {
+			} else if (cell.getContent() == 'M') {
 				counterMushrooms++;
 			}
 		}
+		System.out.println("cM:" + counterMushrooms);
+		// System.out.println("cT:" + counterTomatoes);
 		if (counterTomatoes >= minimumIngredients && counterMushrooms >= minimumIngredients) {
+
 			return true;
+
 		}
 		return false;
 	}
