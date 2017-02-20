@@ -29,7 +29,7 @@ public class Slice {
 			int row = c.getRowPosition();
 			if (column < minimumLeft) {
 				minimumLeft = column;
-				System.out.println(minimumLeft);
+				// System.out.println(minimumLeft);
 			}
 			if (column > maximumRight) {
 				maximumRight = column;
@@ -40,9 +40,12 @@ public class Slice {
 			if (row > maximumBottom) {
 				maximumBottom = row;
 			}
-			c.setPartOfASlice(true);
 
 		}
+		topLeftRow = minimumTop;
+		topLeftColumn = minimumLeft;
+		bottomRightRow = maximumBottom;
+		bottomRightColumn = maximumRight;
 
 	}
 

@@ -50,12 +50,13 @@ public class PizzaSlicer {
 					line = reader.readLine();
 					char[] charInLine = line.toCharArray();
 					for (int numberOfColumn = 0; numberOfColumn < columnNumber; numberOfColumn++) {
-						cellList[numberOfRow][numberOfColumn] = charInLine[numberOfColumn];
-						for (int i = 0; i < rowNumber; i++) {
-							Cell cellToAdd = new Cell(charInLine[i], numberOfRow, numberOfColumn);
-							availableCells.add(cellToAdd);
-							pizza[numberOfRow][numberOfColumn] = cellToAdd;
-						}
+						// cellList[numberOfRow][numberOfColumn] =
+						// charInLine[numberOfColumn];
+						// for (int i = 0; i < rowNumber; i++) {
+						Cell cellToAdd = new Cell(charInLine[numberOfRow], numberOfRow, numberOfColumn);
+						availableCells.add(cellToAdd);
+						pizza[numberOfRow][numberOfColumn] = cellToAdd;
+						// }
 						// System.out.println("Spalte eingelesen:
 						// "+numberOfColumn);
 					}
@@ -160,7 +161,10 @@ public class PizzaSlicer {
 	private void addSliceToListAndMarkCellsAsUnavailable(ArrayList<Cell> newCells) {
 		Slice foundSlice = new Slice(newCells);
 		slices.add(foundSlice);
+
+		// System.out.println("Muesste 17 sein:" + counter++);
 		for (Cell candidate : newCells) {
+
 			deleteCellsFromCellsNotTaken(candidate);
 		}
 	}
