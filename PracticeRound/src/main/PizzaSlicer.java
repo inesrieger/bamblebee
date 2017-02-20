@@ -101,33 +101,10 @@ public class PizzaSlicer {
 				}
 
 			}
+
 		}
-		// }
 		return false;
 
-	}
-
-	private ArrayList<Cell> expandDown(ArrayList<Cell> newCells, Cell pointer) {
-		int highestRowNumber = 0;
-		ArrayList<Cell> candidateCells = new ArrayList<Cell>();
-
-		for (Cell cell : newCells) {
-			if (cell.getRowPosition() > highestRowNumber) {
-				highestRowNumber = cell.getRowPosition();
-			}
-		}
-		for (Cell cell : newCells) {
-			if (cell.getRowPosition() == highestRowNumber) {
-				Cell cellToAdd = pizza[cell.getRowPosition()][cell.getRowPosition() + 1];
-				if (availableCells.contains(cellToAdd)) {
-					candidateCells.add(cellToAdd);
-				} else {
-					return new ArrayList<Cell>();
-				}
-			}
-		}
-
-		return candidateCells;
 	}
 
 	private ArrayList<Cell> expandRight(ArrayList<Cell> newCells, Cell pointer) {
@@ -142,6 +119,29 @@ public class PizzaSlicer {
 		for (Cell cell : newCells) {
 			if (cell.getColumnPosition() == highestColNumber) {
 				Cell cellToAdd = pizza[cell.getRowPosition()][cell.getColumnPosition() + 1];
+				if (availableCells.contains(cellToAdd)) {
+					candidateCells.add(cellToAdd);
+				} else {
+					return new ArrayList<Cell>();
+				}
+			}
+		}
+
+		return candidateCells;
+	}
+
+	private ArrayList<Cell> expandDown(ArrayList<Cell> newCells, Cell pointer) {
+		int highestRowNumber = 0;
+		ArrayList<Cell> candidateCells = new ArrayList<Cell>();
+
+		for (Cell cell : newCells) {
+			if (cell.getRowPosition() > highestRowNumber) {
+				highestRowNumber = cell.getRowPosition();
+			}
+		}
+		for (Cell cell : newCells) {
+			if (cell.getColumnPosition() == highestRowNumber) {
+				Cell cellToAdd = pizza[cell.getRowPosition() + 1][cell.getColumnPosition()];
 				if (availableCells.contains(cellToAdd)) {
 					candidateCells.add(cellToAdd);
 				} else {
