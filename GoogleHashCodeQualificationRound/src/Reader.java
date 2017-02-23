@@ -11,10 +11,10 @@ public class Reader {
 	int sizeOfEachCache = 0;
 
 	public Reader(String fileName) {
-
+		this.fileName = fileName;
 	}
 
-	public int readFile(String fileName) throws Exception {
+	public int readFile() throws Exception {
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
 
 			String line = reader.readLine();
@@ -33,35 +33,30 @@ public class Reader {
 				sizesOfVideos[i] = Integer.parseInt(tokens[i]);
 			}
 
-			// 3. line
-			line = reader.readLine();
-			tokens = line.split(" ");
-			while (line != null) {
-				for (int numberOfRow = 0; numberOfRow < rowNumber; numberOfRow++) {
-					line = reader.readLine();
-					char[] charInLine = line.toCharArray();
-					// System.out.println(charInLine);
-					for (int numberOfColumn = 0; numberOfColumn < columnNumber; numberOfColumn++) {
-
-						// cellList[numberOfRow][numberOfColumn] =
-						// charInLine[numberOfColumn];
-						// for (int i = 0; i < rowNumber; i++) {
-						Cell cellToAdd = new Cell(charInLine[numberOfColumn], numberOfRow, numberOfColumn);
-						availableCells.add(cellToAdd);
-						pizza[numberOfRow][numberOfColumn] = cellToAdd;
-					}
-
-				}
+			for (int i = 0; i < numberOfEndpoints; i++) {
+				// 3. line
 				line = reader.readLine();
-			}
-			int counter = 0;
-			for (Cell c : availableCells) {
+				tokens = line.split(" ");
+				int numberOfEndpoint = Integer.parseInt(tokens[0]);
+				int dataCenterLatencyInMs = Integer.parseInt(tokens[1]);
 
-				// System.out.println(++counter + ". cell: row: " +
-				// c.getRowPosition() + ", column: "
-				// + c.getColumnPosition() + ", content:" + c.getContent());
+				// 4. line and onwards
+				int[] latenciesFromEndpointToCaches = new int[numberOfCaches];
+				for (int i1 = 0; i1 < numberOfCaches; i1++) {
+					latenciesFromEndpointToCaches[i1] = Integer.parseInt(tokens[i1]);
+				}
 			}
-			return cellList;
+
+			// Lines for Requests
+			while (line != null) {
+				line = reader.readLine();
+				tokens = line.split(" ");
+				// videoNumber = tokens[0];
+				// fromEndpoint = tokens[1];
+				// numberOfRequests = tokens[2];
+			}
+			line = reader.readLine();
+
 		} catch (IOException e) {
 			throw new IOException("The document couldn't be read.");
 		}
