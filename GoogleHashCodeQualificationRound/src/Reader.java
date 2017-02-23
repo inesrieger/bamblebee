@@ -32,17 +32,20 @@ public class Reader {
 			for (int i = 0; i < tokens.length; i++) {
 				sizesOfVideos[i] = Integer.parseInt(tokens[i]);
 			}
-
+			int idOfEndpoint = 0;
 			for (int i = 0; i < numberOfEndpoints; i++) {
 				// 3. line
 				line = reader.readLine();
 				tokens = line.split(" ");
-				int numberOfEndpoint = Integer.parseInt(tokens[0]);
-				int dataCenterLatencyInMs = Integer.parseInt(tokens[1]);
+				int dataCenterLatencyInMs = Integer.parseInt(tokens[0]);
+				int numberOfConnectedCaches = Integer.parseInt(tokens[1]);
+				Endpoint endpoint = new Endpoint(idOfEndpoint, dataCenterLatencyInMs);
+				idOfEndpoint++;
 
 				// 4. line and onwards
 				int[] latenciesFromEndpointToCaches = new int[numberOfCaches];
 				for (int i1 = 0; i1 < numberOfCaches; i1++) {
+					tokens = line.split(" ");
 					latenciesFromEndpointToCaches[i1] = Integer.parseInt(tokens[i1]);
 				}
 			}
@@ -51,6 +54,7 @@ public class Reader {
 			while (line != null) {
 				line = reader.readLine();
 				tokens = line.split(" ");
+				Video video = new Video(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[0]));
 				// videoNumber = tokens[0];
 				// fromEndpoint = tokens[1];
 				// numberOfRequests = tokens[2];
