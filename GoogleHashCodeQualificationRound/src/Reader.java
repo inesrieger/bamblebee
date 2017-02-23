@@ -80,7 +80,7 @@ public class Reader {
 				tokens = line.split(" ");
 				int videoId = Integer.parseInt(tokens[0]);
 				int endpointId = Integer.parseInt(tokens[1]);
-				Video currentVideo = allVideos.get(videoId);
+				Video currentVideo = findVideoById(videoId);
 				Request request = new Request(currentVideo, allEndpoints.get(endpointId), Integer.parseInt(tokens[2]));
 				currentVideo.requests.add(request);
 				// videoNumber = tokens[0];
@@ -106,6 +106,16 @@ public class Reader {
 	private CacheServer findCSById(int id) {
 		CacheServer current = null;
 		for (CacheServer cs : allServers) {
+			if (cs.id == id) {
+				current = cs;
+			}
+		}
+		return current;
+	}
+
+	private Video findVideoById(int id) {
+		Video current = null;
+		for (Video cs : allVideos) {
 			if (cs.id == id) {
 				current = cs;
 			}
