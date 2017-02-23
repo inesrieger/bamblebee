@@ -11,6 +11,7 @@ public class Writer {
 
 	public Writer(ArrayList<CacheServer> cacheServers) {
 		this.numberOfCacheServers = cacheServers.size();
+		this.cacheServers = cacheServers;
 	}
 
 	public void writeOutput() {
@@ -30,10 +31,8 @@ public class Writer {
 					videosOfCacheServer = " 0";
 				}
 				writer.write(cs.id + " " + videosOfCacheServer);
-
+				writer.newLine();
 			}
-
-			writer.newLine();
 
 			writer.close();
 

@@ -12,6 +12,7 @@ public class Distributor {
 	ArrayList<Video> allVideos = new ArrayList<>();
 	ArrayList<Endpoint> allEndpoints = new ArrayList<>();
 	ArrayList<Request> allRequests = new ArrayList<>();
+	ArrayList<CacheServer> usedCacheServers = new ArrayList<>();
 
 	public Distributor(int numberOfVideos, int numberOfEndpoints, int numberRequestDescriptions, int numberOfCaches,
 			int sizeOfEachCache, ArrayList<Video> allVideos, ArrayList<Endpoint> allEndpoints,
@@ -39,7 +40,10 @@ public class Distributor {
 				// currentEndpoint.endpointID);
 				sortCachesOfEndpointByLatency(currentEndpoint);
 				for (CacheLatencyPair pair : currentEndpoint.cachesWithLatencies) {
-					end
+					if (pair.cacheServer.insertVideo(video)) {
+						usedCacheServers.add(pair.cacheServer);
+						break;
+					}
 				}
 			}
 

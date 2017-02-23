@@ -6,9 +6,8 @@ public class Main {
 		Distributor distributor = ourReader.readFile();
 		distributor.doTheMagic();
 
-		// ourReader.readFile();
-		// Writer ourWriter = new Writer();
-		// ourWriter.writeOutput();
+		Writer ourWriter = new Writer(distributor.usedCacheServers);
+		ourWriter.writeOutput();
 
 	}
 }
