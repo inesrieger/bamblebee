@@ -17,8 +17,10 @@ public class Reader {
 	public Reader(String fileName) {
 		this.fileName = fileName;
 	}
+	
+	
 
-	public void readFile() throws Exception {
+	public Distributor readFile() throws Exception {
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
 
 			String line = reader.readLine();
@@ -89,5 +91,10 @@ public class Reader {
 		for (Video v : allVideos) {
 			System.out.println("id: " + v.id);
 		}
+	
+	Distributor distributor = new Distributor(numberOfVideos,numberOfEndpoints,numberRequestDescriptions,
+			numberOfCaches,sizeOfEachCache,allVideos,allEndpoints,
+			allRequests);
+	return distributor;
 	}
 }
