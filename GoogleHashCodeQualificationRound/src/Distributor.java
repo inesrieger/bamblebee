@@ -31,7 +31,8 @@ public class Distributor {
 	public void doTheMagic() {
 		orderVideosWithMostRequests();
 		int i = 0;
-		while (!allVideos.isEmpty()) {
+		int deleted = 0;
+		while (!allVideos.isEmpty() && i < allVideos.size()) {
 			Video video = allVideos.get(i);
 			Boolean videoDeleted = false;
 			orderRequestsPerVideo(video);
@@ -48,15 +49,14 @@ public class Distributor {
 					for (CacheLatencyPair pair : currentEndpoint.cachesWithLatencies) {
 						if (pair.cacheServer.insertVideo(video)) {
 							usedCacheServers.add(pair.cacheServer);
-							allVideos.remove(video);
+							// allVideos.remove(video);
 							videoDeleted = true;
-							i--;
 							break;
 						}
 					}
 				}
 			}
-			i++;
+			allVideos.remove(video);
 		}
 	}
 
