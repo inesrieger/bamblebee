@@ -27,6 +27,7 @@ public class Reader {
 			numberOfEndpoints = Integer.parseInt(tokens[1]);
 			numberRequestDescriptions = Integer.parseInt(tokens[2]);
 			numberOfCaches = Integer.parseInt(tokens[3]);
+			// System.out.println(numberOfCaches);
 			sizeOfEachCache = Integer.parseInt(tokens[4]);
 
 			// 2. line
@@ -54,10 +55,9 @@ public class Reader {
 				idOfEndpoint++;
 
 				// 4. line and onwards
-				for (int i1 = 0; i1 < numberOfCaches; i1++) {
-
+				for (int i1 = 0; i1 < numberOfConnectedCaches; i1++) {
+					line = reader.readLine();
 					tokens = line.split(" ");
-					System.out.println(Integer.parseInt(tokens[0]));
 
 					CacheServer cacheServer = new CacheServer(Integer.parseInt(tokens[0]), sizeOfEachCache);
 					endpoint.cacheServers[i1] = cacheServer;
@@ -67,8 +67,9 @@ public class Reader {
 			}
 
 			// Lines for Requests
+			line = reader.readLine();
 			while (line != null) {
-				line = reader.readLine();
+
 				tokens = line.split(" ");
 				int videoId = Integer.parseInt(tokens[0]);
 				int endpointId = Integer.parseInt(tokens[1]);
@@ -77,11 +78,16 @@ public class Reader {
 				// videoNumber = tokens[0];
 				// fromEndpoint = tokens[1];
 				// numberOfRequests = tokens[2];
+				line = reader.readLine();
 			}
+
 			line = reader.readLine();
 
 		} catch (IOException e) {
 			throw new IOException("The document couldn't be read.");
+		}
+		for (Video v : allVideos) {
+			System.out.println("id: " + v.id);
 		}
 	}
 }
