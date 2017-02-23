@@ -5,12 +5,12 @@ public class Endpoint {
 	public CacheServer[] cacheServers;
 	public int[] latencyPerCacheServer;
 
-	public Endpoint(int endpointID, int latencyDataCenter) {
+	public Endpoint(int endpointID, int latencyDataCenter, int numberOfCaches) {
 		super();
 		this.endpointID = endpointID;
 		this.latencyDataCenter = latencyDataCenter;
-		this.cacheServers = cacheServers;
-		this.latencyPerCacheServer = latencyPerCacheServer;
+		this.cacheServers = new CacheServer[numberOfCaches];
+		this.latencyPerCacheServer = new int[numberOfCaches];
 	}
 
 }
