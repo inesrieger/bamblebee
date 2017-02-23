@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Distributor {
-	
+
 	int numberOfVideos = 0;
 	int numberOfEndpoints = 0;
 	int numberRequestDescriptions = 0;
@@ -10,9 +12,9 @@ public class Distributor {
 	ArrayList<Video> allVideos = new ArrayList<>();
 	ArrayList<Endpoint> allEndpoints = new ArrayList<>();
 	ArrayList<Request> allRequests = new ArrayList<>();
-	
-	public Distributor(int numberOfVideos, int numberOfEndpoints, int numberRequestDescriptions,
-			int numberOfCaches, int sizeOfEachCache, ArrayList<Video> allVideos, ArrayList<Endpoint> allEndpoints,
+
+	public Distributor(int numberOfVideos, int numberOfEndpoints, int numberRequestDescriptions, int numberOfCaches,
+			int sizeOfEachCache, ArrayList<Video> allVideos, ArrayList<Endpoint> allEndpoints,
 			ArrayList<Request> allRequests) {
 		super();
 		this.numberOfVideos = numberOfVideos;
@@ -24,16 +26,37 @@ public class Distributor {
 		this.allEndpoints = allEndpoints;
 		this.allRequests = allRequests;
 	}
-	
-	public void doTheMagic(){
-		
-		
+
+	public void doTheMagic() {
+		orderVideosWithMostRequests();
+		for (Video video : allVideos) {
+			orderRequestsPerVideo(video);
+			for (Request request : video.requests) {
+				Endpoint currentEndpoint = request.endpoint;
+				System.out.println("Video: " + video.id + " Request: " + request.requestQuantity + " Endpoint: "
+						+ currentEndpoint.endpointID);
+			}
+
+		}
 	}
-	
-	public void orderVideosWithMostRequests(){
-		allVideos.sort(c);
-		
+
+	public void orderVideosWithMostRequests() {
+		Collections.sort(allVideos, new Comparator<Video>() {
+			@Override
+			public int compare(final Video vid1, final Video vid2) {
+				return Integer.compare(vid1.getSumOfRequests(), vid2.getSumOfRequests());
+			}
+		});
+
 	}
-	
+
+	public void orderRequestsPerVideo(Video video) {
+		Collections.sort(video.requests, new Comparator<Request>() {
+			@Override
+			public int compare(final Request requ1, final Request requ2) {
+				return Integer.compare(requ1.requestQuantity, requ2.requestQuantity);
+			}
+		});
+	}
 
 }

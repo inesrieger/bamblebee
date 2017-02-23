@@ -1,21 +1,23 @@
+import java.util.ArrayList;
 
 public class Video {
-	
-	int request;
+
+	ArrayList<Request> requests;
 	int size;
 	int id;
-	
-	public Video (int size, int id){
+
+	public Video(int size, int id) {
 		this.size = size;
 		this.id = id;
-		this.request = 0;
+		this.requests = new ArrayList<Request>();
 	}
-	
-	
-	public int compare(Object o1, Object o2){
-		
-		return id;
-		
+
+	public int getSumOfRequests() {
+		int sum = 0;
+		for (Request request : requests) {
+			sum += request.requestQuantity;
+		}
+		return sum;
 	}
 
 }

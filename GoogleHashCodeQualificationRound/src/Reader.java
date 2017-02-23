@@ -17,8 +17,6 @@ public class Reader {
 	public Reader(String fileName) {
 		this.fileName = fileName;
 	}
-	
-	
 
 	public Distributor readFile() throws Exception {
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -75,8 +73,9 @@ public class Reader {
 				tokens = line.split(" ");
 				int videoId = Integer.parseInt(tokens[0]);
 				int endpointId = Integer.parseInt(tokens[1]);
-				Request request = new Request(allVideos.get(videoId), allEndpoints.get(endpointId),
-						Integer.parseInt(tokens[2]));
+				Video currentVideo = allVideos.get(videoId);
+				Request request = new Request(currentVideo, allEndpoints.get(endpointId), Integer.parseInt(tokens[2]));
+				currentVideo.requests.add(request);
 				// videoNumber = tokens[0];
 				// fromEndpoint = tokens[1];
 				// numberOfRequests = tokens[2];
@@ -88,13 +87,12 @@ public class Reader {
 		} catch (IOException e) {
 			throw new IOException("The document couldn't be read.");
 		}
-		for (Video v : allVideos) {
-			System.out.println("id: " + v.id);
-		}
-	
-	Distributor distributor = new Distributor(numberOfVideos,numberOfEndpoints,numberRequestDescriptions,
-			numberOfCaches,sizeOfEachCache,allVideos,allEndpoints,
-			allRequests);
-	return distributor;
+		// for (Video v : allVideos) {
+		// System.out.println("id: " + v.id);
+		// }
+
+		Distributor distributor = new Distributor(numberOfVideos, numberOfEndpoints, numberRequestDescriptions,
+				numberOfCaches, sizeOfEachCache, allVideos, allEndpoints, allRequests);
+		return distributor;
 	}
 }
