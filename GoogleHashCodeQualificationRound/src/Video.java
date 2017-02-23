@@ -10,5 +10,12 @@ public class Video {
 		this.id = id;
 		this.request = 0;
 	}
+	
+	
+	public int compare(Object o1, Object o2){
+		
+		return id;
+		
+	}
 
 }
