@@ -31,9 +31,7 @@ public class Distributor {
 	}
 	
 	public void orderVideosWithMostRequests(){
-		for(Video v: allVideos){
-			
-		}
+		allVideos.sort(c);
 		
 	}
 	
