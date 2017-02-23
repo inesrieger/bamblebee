@@ -51,6 +51,7 @@ public class Reader {
 			while (line != null) {
 				line = reader.readLine();
 				tokens = line.split(" ");
+				Video video = new Video(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[0]));
 				// videoNumber = tokens[0];
 				// fromEndpoint = tokens[1];
 				// numberOfRequests = tokens[2];
