@@ -30,23 +30,33 @@ public class Distributor {
 
 	public void doTheMagic() {
 		orderVideosWithMostRequests();
-		for (Video video : allVideos) {
+		int i = 0;
+		while (!allVideos.isEmpty()) {
+			Video video = allVideos.get(i);
+			Boolean videoDeleted = false;
 			orderRequestsPerVideo(video);
 			for (Request request : video.requests) {
-				Endpoint currentEndpoint = request.endpoint;
-				// System.out.println("Video: " + video.id + ", Total requests:
-				// " + video.getSumOfRequests()
-				// + ", Request: " + request.requestQuantity + ", Endpoint: " +
-				// currentEndpoint.endpointID);
-				sortCachesOfEndpointByLatency(currentEndpoint);
-				for (CacheLatencyPair pair : currentEndpoint.cachesWithLatencies) {
-					if (pair.cacheServer.insertVideo(video)) {
-						usedCacheServers.add(pair.cacheServer);
-						break;
+				if (!videoDeleted) {
+					Endpoint currentEndpoint = request.endpoint;
+					// System.out.println("Video: " + video.id + ", Total
+					// requests:
+					// " + video.getSumOfRequests()
+					// + ", Request: " + request.requestQuantity + ", Endpoint:
+					// " +
+					// currentEndpoint.endpointID);
+					sortCachesOfEndpointByLatency(currentEndpoint);
+					for (CacheLatencyPair pair : currentEndpoint.cachesWithLatencies) {
+						if (pair.cacheServer.insertVideo(video)) {
+							usedCacheServers.add(pair.cacheServer);
+							allVideos.remove(video);
+							videoDeleted = true;
+							i--;
+							break;
+						}
 					}
 				}
 			}
-
+			i++;
 		}
 	}
 
