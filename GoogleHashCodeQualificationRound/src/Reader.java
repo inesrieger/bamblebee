@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Reader {
 	String fileName;
@@ -13,6 +14,7 @@ public class Reader {
 	ArrayList<Video> allVideos = new ArrayList<>();
 	ArrayList<Endpoint> allEndpoints = new ArrayList<>();
 	ArrayList<Request> allRequests = new ArrayList<>();
+	HashSet<CacheServer> allServers = new HashSet<>();
 
 	public Reader(String fileName) {
 		this.fileName = fileName;
@@ -58,8 +60,13 @@ public class Reader {
 				for (int i1 = 0; i1 < numberOfConnectedCaches; i1++) {
 					line = reader.readLine();
 					tokens = line.split(" ");
-
-					CacheServer cacheServer = new CacheServer(Integer.parseInt(tokens[0]), sizeOfEachCache);
+					CacheServer cacheServer;
+					if (findCSById(Integer.parseInt(tokens[0])) != null) {
+						cacheServer = findCSById(Integer.parseInt(tokens[0]));
+					} else {
+						cacheServer = new CacheServer(Integer.parseInt(tokens[0]), sizeOfEachCache);
+					}
+					allServers.add(cacheServer);
 					CacheLatencyPair cacheLatencyPair = new CacheLatencyPair(cacheServer, Integer.parseInt(tokens[1]));
 					endpoint.cachesWithLatencies.add(cacheLatencyPair);
 				}
@@ -95,4 +102,15 @@ public class Reader {
 				numberOfCaches, sizeOfEachCache, allVideos, allEndpoints, allRequests);
 		return distributor;
 	}
+
+	private CacheServer findCSById(int id) {
+		CacheServer current = null;
+		for (CacheServer cs : allServers) {
+			if (cs.id == id) {
+				current = cs;
+			}
+		}
+		return current;
+	}
+
 }

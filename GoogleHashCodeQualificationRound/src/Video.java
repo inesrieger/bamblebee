@@ -20,4 +20,10 @@ public class Video {
 		return sum;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		Video cs = (Video) obj;
+		return this.id == cs.id;
+	}
+
 }

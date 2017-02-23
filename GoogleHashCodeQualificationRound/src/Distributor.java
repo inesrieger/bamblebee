@@ -29,29 +29,35 @@ public class Distributor {
 	}
 
 	public void doTheMagic() {
+
 		orderVideosWithMostRequests();
-		int i = 0;
-		int deleted = 0;
-		while (!allVideos.isEmpty() && i < allVideos.size()) {
-			Video video = allVideos.get(i);
+		boolean isFirst = true;
+		while (!allVideos.isEmpty()) {
+			Video video = allVideos.get(0);
 			Boolean videoDeleted = false;
-			orderRequestsPerVideo(video);
+			if (isFirst) {
+				orderRequestsPerVideo(video);
+				isFirst = false;
+			}
+			boolean isFirst2 = true;
 			for (Request request : video.requests) {
 				if (!videoDeleted) {
 					Endpoint currentEndpoint = request.endpoint;
-					// System.out.println("Video: " + video.id + ", Total
-					// requests:
-					// " + video.getSumOfRequests()
-					// + ", Request: " + request.requestQuantity + ", Endpoint:
-					// " +
-					// currentEndpoint.endpointID);
-					sortCachesOfEndpointByLatency(currentEndpoint);
+					if (isFirst2) {
+						sortCachesOfEndpointByLatency(currentEndpoint);
+						isFirst2 = false;
+					}
+
 					for (CacheLatencyPair pair : currentEndpoint.cachesWithLatencies) {
-						if (pair.cacheServer.insertVideo(video)) {
+						CacheServer cacheServer;
+						if (findCSById(pair.cacheServer.id) != null && !videoDeleted) {
+							cacheServer = findCSById(pair.cacheServer.id);
+							cacheServer.insertVideo(video);
+							videoDeleted = true;
+						} else if (pair.cacheServer.insertVideo(video) && !videoDeleted) {
 							usedCacheServers.add(pair.cacheServer);
 							// allVideos.remove(video);
 							videoDeleted = true;
-							break;
 						}
 					}
 				}
@@ -87,6 +93,16 @@ public class Distributor {
 				return Integer.compare(requ2.requestQuantity, requ1.requestQuantity);
 			}
 		});
+	}
+
+	private CacheServer findCSById(int id) {
+		CacheServer current = null;
+		for (CacheServer cs : usedCacheServers) {
+			if (cs.id == id) {
+				current = cs;
+			}
+		}
+		return current;
 	}
 
 }
