@@ -5,10 +5,10 @@ public class Video {
 	int size;
 	int id;
 	
-	public Video (int request, int size, int id){
-		this.request = request;
+	public Video (int size, int id){
 		this.size = size;
-		this.id = id;	
+		this.id = id;
+		this.request = 0;
 	}
 
 }
