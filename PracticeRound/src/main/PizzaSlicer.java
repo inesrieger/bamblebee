@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PizzaSlicer {
 	private ArrayList<Slice> slices = new ArrayList<Slice>();
@@ -84,27 +85,30 @@ public class PizzaSlicer {
 
 	public void findPossibleSlice() {
 		Cell pointer = availableCells.get(0);
-		int pointerRow = pointer.getRowPosition();
-		int pointerColumn = pointer.getColumnPosition();
 		ArrayList<Cell> newCells = new ArrayList<Cell>();
 		boolean checkedRightSide = false;
 		boolean checkedDownSide = false;
 		newCells.add(pointer);
+		ArrayList<Cell> rightExpandedCells = new ArrayList <Cell>();
+		ArrayList<Cell> downExpandedCells = new ArrayList <Cell>();
 
-		while (newCells.get(newCells.size() - 1).getColumnPosition() < columnNumber - 1
+		while (newCells.get(newCells.size() - 1).getColumnPosition() < ((columnNumber - 1))
 				&& (newCells.size() < maximumSliceSize) && (!checkIfSliceContainsAllIngredients(newCells))
 				&& !checkedRightSide) {
-			ArrayList<Cell> rightExpandedCells = expandRight(newCells, pointer);
+			rightExpandedCells = expandRight(newCells, pointer);
 			if (!rightExpandedCells.isEmpty()) {
 				newCells.addAll(rightExpandedCells);
 			} else {
 				checkedRightSide = true;
+				//availableCells.remove(0);
 			}
 		}
 		while (newCells.get(newCells.size() - 1).getRowPosition() < rowNumber - 1
 				&& (newCells.size() < maximumSliceSize) && (!checkIfSliceContainsAllIngredients(newCells))
 				&& !checkedDownSide) {
-			ArrayList<Cell> downExpandedCells = expandDown(newCells, pointer);
+			if(newCells.size() < maximumSliceSize/2){
+				downExpandedCells = expandDown(newCells, pointer);
+			}
 			if (!downExpandedCells.isEmpty()) {
 				newCells.addAll(downExpandedCells);
 			} else {
@@ -113,7 +117,7 @@ public class PizzaSlicer {
 				return;
 			}
 		}
-		if ((newCells.size() < maximumSliceSize) && (checkIfSliceContainsAllIngredients(newCells))) {
+		if (((rightExpandedCells.size() + downExpandedCells.size()) < maximumSliceSize) && (checkIfSliceContainsAllIngredients(newCells))) {
 			addSliceToListAndMarkCellsAsUnavailable(newCells);
 		} else {
 			availableCells.remove(0);
@@ -170,10 +174,8 @@ public class PizzaSlicer {
 	private void addSliceToListAndMarkCellsAsUnavailable(ArrayList<Cell> newCells) {
 		Slice foundSlice = new Slice(newCells);
 		slices.add(foundSlice);
-
 		// System.out.println("Muesste 17 sein:" + counter++);
 		for (Cell candidate : newCells) {
-
 			deleteCellsFromCellsNotTaken(candidate);
 		}
 	}
