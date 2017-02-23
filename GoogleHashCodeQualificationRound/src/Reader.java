@@ -51,7 +51,7 @@ public class Reader {
 				tokens = line.split(" ");
 				int dataCenterLatencyInMs = Integer.parseInt(tokens[0]);
 				int numberOfConnectedCaches = Integer.parseInt(tokens[1]);
-				Endpoint endpoint = new Endpoint(idOfEndpoint, dataCenterLatencyInMs, numberOfConnectedCaches);
+				Endpoint endpoint = new Endpoint(idOfEndpoint, dataCenterLatencyInMs);
 				idOfEndpoint++;
 
 				// 4. line and onwards
@@ -60,8 +60,8 @@ public class Reader {
 					tokens = line.split(" ");
 
 					CacheServer cacheServer = new CacheServer(Integer.parseInt(tokens[0]), sizeOfEachCache);
-					endpoint.cacheServers[i1] = cacheServer;
-					endpoint.latencyPerCacheServer[i1] = Integer.parseInt(tokens[1]);
+					CacheLatencyPair cacheLatencyPair = new CacheLatencyPair(cacheServer, Integer.parseInt(tokens[1]));
+					endpoint.cachesWithLatencies.add(cacheLatencyPair);
 				}
 				allEndpoints.add(endpoint);
 			}

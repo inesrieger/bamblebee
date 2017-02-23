@@ -33,18 +33,34 @@ public class Distributor {
 			orderRequestsPerVideo(video);
 			for (Request request : video.requests) {
 				Endpoint currentEndpoint = request.endpoint;
-				System.out.println("Video: " + video.id + " Request: " + request.requestQuantity + " Endpoint: "
-						+ currentEndpoint.endpointID);
+				// System.out.println("Video: " + video.id + ", Total requests:
+				// " + video.getSumOfRequests()
+				// + ", Request: " + request.requestQuantity + ", Endpoint: " +
+				// currentEndpoint.endpointID);
+				sortCachesOfEndpointByLatency(currentEndpoint);
+				for (CacheLatencyPair pair : currentEndpoint.cachesWithLatencies) {
+					end
+				}
 			}
 
 		}
+	}
+
+	private void sortCachesOfEndpointByLatency(Endpoint currentEndpoint) {
+		Collections.sort(currentEndpoint.cachesWithLatencies, new Comparator<CacheLatencyPair>() {
+			@Override
+			public int compare(final CacheLatencyPair pair1, final CacheLatencyPair pair2) {
+				return Integer.compare(pair2.latency, pair1.latency);
+			}
+		});
+
 	}
 
 	public void orderVideosWithMostRequests() {
 		Collections.sort(allVideos, new Comparator<Video>() {
 			@Override
 			public int compare(final Video vid1, final Video vid2) {
-				return Integer.compare(vid1.getSumOfRequests(), vid2.getSumOfRequests());
+				return Integer.compare(vid2.getSumOfRequests(), vid1.getSumOfRequests());
 			}
 		});
 
@@ -54,7 +70,7 @@ public class Distributor {
 		Collections.sort(video.requests, new Comparator<Request>() {
 			@Override
 			public int compare(final Request requ1, final Request requ2) {
-				return Integer.compare(requ1.requestQuantity, requ2.requestQuantity);
+				return Integer.compare(requ2.requestQuantity, requ1.requestQuantity);
 			}
 		});
 	}
